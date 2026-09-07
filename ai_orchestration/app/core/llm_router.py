@@ -1,5 +1,6 @@
 import json
 import logging
+import re
 from typing import Optional, Dict, Any
 from groq import Groq
 from google import genai
@@ -7,6 +8,27 @@ from google.genai import types
 from app.core.config import settings
 
 logger = logging.getLogger(__name__)
+
+def extract_json_from_text(text: str) -> Dict[str, Any]:
+    """Robustly extract and parse JSON object from raw LLM text output."""
+    clean = text.strip()
+    # Strip markdown code blocks if present
+    if clean.startswith("```json"):
+        clean = clean[7:]
+    elif clean.startswith("```"):
+        clean = clean[3:]
+    if clean.endswith("```"):
+        clean = clean[:-3]
+    clean = clean.strip()
+
+    try:
+        return json.loads(clean)
+    except json.JSONDecodeError:
+        # Match outermost {...}
+        match = re.search(r"(\{.*\})", clean, re.DOTALL)
+        if match:
+            return json.loads(match.group(1))
+        raise
 
 class LLMRouter:
     def __init__(self):
@@ -20,9 +42,8 @@ class LLMRouter:
         max_tokens: int = 900,
         temperature: float = 0.7
     ) -> str:
-        # 1. Primary: Groq openai/gpt-oss-120b
         if self.groq_client:
-            for model_name in ["openai/gpt-oss-120b", "openai/gpt-oss-20b", "qwen/qwen3.8-27b"]:
+            for model_name in ["openai/gpt-oss-120b", "qwen/qwen3.8-27b", "openai/gpt-oss-20b"]:
                 try:
                     messages = []
                     if system_prompt:
@@ -37,9 +58,8 @@ class LLMRouter:
                     )
                     return res.choices[0].message.content.strip()
                 except Exception as e:
-                    logger.warning(f"Groq model {model_name} failed: {e}, attempting next...")
+                    logger.warning(f"Groq text model {model_name} failed: {e}, attempting next...")
 
-        # 2. Secondary: Gemini
         if self.gemini_client:
             try:
                 config = types.GenerateContentConfig(
@@ -57,7 +77,7 @@ class LLMRouter:
             except Exception as e:
                 logger.warning(f"Gemini fallback failed: {e}")
 
-        raise RuntimeError("No working LLM provider is available.")
+        raise RuntimeError("No working LLM provider is available for text generation.")
 
     async def generate_json(
         self,
@@ -65,14 +85,15 @@ class LLMRouter:
         system_prompt: Optional[str] = None,
         max_tokens: int = 950
     ) -> Dict[str, Any]:
-        # 1. Primary for JSON: Groq with response_format={"type": "json_object"}
+        # Groq Models to iterate through
         if self.groq_client:
-            for model_name in ["openai/gpt-oss-120b", "openai/gpt-oss-20b"]:
+            for model_name in ["openai/gpt-oss-120b", "qwen/qwen3.8-27b", "openai/gpt-oss-20b"]:
+                # Attempt A: with response_format json_object
                 try:
                     messages = []
-                    sys_msg = (system_prompt or "") + "\nYou MUST respond with strictly valid JSON only."
+                    sys_msg = (system_prompt or "") + "\nRespond with valid JSON only."
                     messages.append({"role": "system", "content": sys_msg})
-                    messages.append({"role": "user", "content": prompt})
+                    messages.append({"role": "user", "content": prompt + "\nProvide the output in JSON format."})
 
                     res = self.groq_client.chat.completions.create(
                         model=model_name,
@@ -81,11 +102,23 @@ class LLMRouter:
                         max_tokens=max_tokens,
                         temperature=0.2
                     )
-                    return json.loads(res.choices[0].message.content)
-                except Exception as e:
-                    logger.warning(f"Groq JSON {model_name} failed: {e}, attempting next...")
+                    return extract_json_from_text(res.choices[0].message.content)
+                except Exception as e1:
+                    logger.warning(f"Groq {model_name} json_object mode failed: {e1}, trying plain text extraction...")
+                    
+                    # Attempt B: standard completion + regex extractor
+                    try:
+                        res = self.groq_client.chat.completions.create(
+                            model=model_name,
+                            messages=messages,
+                            max_tokens=max_tokens,
+                            temperature=0.2
+                        )
+                        return extract_json_from_text(res.choices[0].message.content)
+                    except Exception as e2:
+                        logger.warning(f"Groq {model_name} plain extraction failed: {e2}, trying next model...")
 
-        # 2. Secondary: Gemini
+        # Secondary: Gemini
         if self.gemini_client:
             try:
                 config = types.GenerateContentConfig(
@@ -99,7 +132,7 @@ class LLMRouter:
                     contents=prompt,
                     config=config
                 )
-                return json.loads(res.text)
+                return extract_json_from_text(res.text)
             except Exception as e:
                 logger.error(f"Gemini JSON failed: {e}")
 

@@ -20,6 +20,41 @@
       "username": "fiverrpro_1788818038181",
       "passwordHash": "$2b$10$Zx8k9bfb0VBk1bQ1ksqpi.BhyrTW7UmDQ0baIZyYG1svD7sL02IVa",
       "createdAt": "2026-09-07T21:53:58.359Z"
+    },
+    {
+      "id": "usr_1788818651870_cyawc",
+      "email": "freelancer_1788818651544@example.com",
+      "username": "fiverrpro_1788818651544",
+      "passwordHash": "$2b$10$fNJ54I28dbqV1PjhVfuxhOiadu422wBHGO1EzFb0EpJmMoKnQLftW",
+      "createdAt": "2026-09-07T22:04:11.870Z"
+    },
+    {
+      "id": "usr_1788818673053_qj5pi",
+      "email": "freelancer_1788818672759@example.com",
+      "username": "fiverrpro_1788818672759",
+      "passwordHash": "$2b$10$YXsZWTUG3eqBstBZyCmS2eLC8ADcXwOcc7DMgC6IsMmuSYQi9cODq",
+      "createdAt": "2026-09-07T22:04:33.053Z"
+    },
+    {
+      "id": "usr_1788818694148_71iuo",
+      "email": "freelancer_1788818693882@example.com",
+      "username": "fiverrpro_1788818693882",
+      "passwordHash": "$2b$10$uGBeDjGKC71oZ7f5aBuWiuY2m.glI8uWx2mbM8eFBlfxnhqb9xg1C",
+      "createdAt": "2026-09-07T22:04:54.148Z"
+    },
+    {
+      "id": "usr_1788818815059_vzn2t",
+      "email": "freelancer_1788818814771@example.com",
+      "username": "fiverrpro_1788818814771",
+      "passwordHash": "$2b$10$KL6bGhF3F1Lp9w0xOcSgvupJyqRwecylryBoQkRWujk7hj3yfMgFG",
+      "createdAt": "2026-09-07T22:06:55.059Z"
+    },
+    {
+      "id": "usr_1788818885628_d7h8t",
+      "email": "freelancer_1788818885286@example.com",
+      "username": "fiverrpro_1788818885286",
+      "passwordHash": "$2b$10$peIhDkJOJ.B/3iRhnR9EdOJ9.HBetriXYB9X3e1Ruvt/OK0Z9Nhqa",
+      "createdAt": "2026-09-07T22:08:05.628Z"
     }
   ],
   "userContexts": {
@@ -172,9 +207,539 @@
       },
       "onboardingCompleted": true,
       "updatedAt": "2026-09-07T21:53:58.442Z"
+    },
+    "usr_1788818651870_cyawc": {
+      "userId": "usr_1788818651870_cyawc",
+      "fullName": "Alexander Wright",
+      "fiverrUrl": "https://www.fiverr.com/alexander_dev",
+      "experienceYears": "4 years",
+      "primarySkills": [
+        "Python",
+        "FastAPI",
+        "Next.js",
+        "AI Agents"
+      ],
+      "secondarySkills": [
+        "PostgreSQL",
+        "Docker",
+        "Tailwind"
+      ],
+      "targetNiches": [
+        "AI Chatbot Integration",
+        "Full-stack MVP Development"
+      ],
+      "marketStrategy": {
+        "recommendedNiches": [
+          {
+            "nicheTitle": "High-Performance Python & Automated Workflow Bot",
+            "opportunityScore": 94.5,
+            "competitionDensity": "LOW (Only 420 active sellers offering full API automation)",
+            "avgTicketPriceUSD": 140,
+            "whyThisWins": "Generic Python gigs are crowded, but bundling API integration and automated deployment allows you to rank for high-intent business buyers immediately."
+          },
+          {
+            "nicheTitle": "Custom Business AI Chatbot & Customer Support Copilot",
+            "opportunityScore": 91,
+            "competitionDensity": "MEDIUM-LOW (High growth area with 3x surge in Buyer Briefs)",
+            "avgTicketPriceUSD": 185,
+            "whyThisWins": "E-commerce store owners are actively searching for custom AI support assistants that integrate directly with their catalog."
+          },
+          {
+            "nicheTitle": "Full-Stack MVP Development (Next.js + FastAPI + Database)",
+            "opportunityScore": 88,
+            "competitionDensity": "MEDIUM (High ticket, low price sensitivity)",
+            "avgTicketPriceUSD": 350,
+            "whyThisWins": "Founders looking to launch quick startup prototypes want complete full-stack MVPs rather than piecemeal frontend/backend work."
+          }
+        ],
+        "marketHiringRateInsight": "Fiverr hiring rate for AI automation and dynamic data solutions has grown 68% year-over-year. Buyers prefer sellers who offer clear 24-48 hour milestones rather than open-ended hourly commitments.",
+        "strategicPositioningAdvice": "Position yourself not as a 'coder', but as a 'business automation engineer'. In your gig descriptions, focus on how much time or money your software saves the client."
+      },
+      "onboardingCompleted": true,
+      "updatedAt": "2026-09-07T22:04:11.963Z"
+    },
+    "usr_1788818673053_qj5pi": {
+      "userId": "usr_1788818673053_qj5pi",
+      "fullName": "Alexander Wright",
+      "fiverrUrl": "https://www.fiverr.com/alexander_dev",
+      "experienceYears": "4 years",
+      "primarySkills": [
+        "Python",
+        "FastAPI",
+        "Next.js",
+        "AI Agents"
+      ],
+      "secondarySkills": [
+        "PostgreSQL",
+        "Docker",
+        "Tailwind"
+      ],
+      "targetNiches": [
+        "AI Chatbot Integration",
+        "Full-stack MVP Development"
+      ],
+      "marketStrategy": {
+        "recommendedNiches": [
+          {
+            "nicheTitle": "High-Performance Python & Automated Workflow Bot",
+            "opportunityScore": 94.5,
+            "competitionDensity": "LOW (Only 420 active sellers offering full API automation)",
+            "avgTicketPriceUSD": 140,
+            "whyThisWins": "Generic Python gigs are crowded, but bundling API integration and automated deployment allows you to rank for high-intent business buyers immediately."
+          },
+          {
+            "nicheTitle": "Custom Business AI Chatbot & Customer Support Copilot",
+            "opportunityScore": 91,
+            "competitionDensity": "MEDIUM-LOW (High growth area with 3x surge in Buyer Briefs)",
+            "avgTicketPriceUSD": 185,
+            "whyThisWins": "E-commerce store owners are actively searching for custom AI support assistants that integrate directly with their catalog."
+          },
+          {
+            "nicheTitle": "Full-Stack MVP Development (Next.js + FastAPI + Database)",
+            "opportunityScore": 88,
+            "competitionDensity": "MEDIUM (High ticket, low price sensitivity)",
+            "avgTicketPriceUSD": 350,
+            "whyThisWins": "Founders looking to launch quick startup prototypes want complete full-stack MVPs rather than piecemeal frontend/backend work."
+          }
+        ],
+        "marketHiringRateInsight": "Fiverr hiring rate for AI automation and dynamic data solutions has grown 68% year-over-year. Buyers prefer sellers who offer clear 24-48 hour milestones rather than open-ended hourly commitments.",
+        "strategicPositioningAdvice": "Position yourself not as a 'coder', but as a 'business automation engineer'. In your gig descriptions, focus on how much time or money your software saves the client."
+      },
+      "onboardingCompleted": true,
+      "updatedAt": "2026-09-07T22:04:33.234Z"
+    },
+    "usr_1788818694148_71iuo": {
+      "userId": "usr_1788818694148_71iuo",
+      "fullName": "Alexander Wright",
+      "fiverrUrl": "https://www.fiverr.com/alexander_dev",
+      "experienceYears": "4 years",
+      "primarySkills": [
+        "Python",
+        "FastAPI",
+        "Next.js",
+        "AI Agents"
+      ],
+      "secondarySkills": [
+        "PostgreSQL",
+        "Docker",
+        "Tailwind"
+      ],
+      "targetNiches": [
+        "AI Chatbot Integration",
+        "Full-stack MVP Development"
+      ],
+      "marketStrategy": {
+        "recommendedNiches": [
+          {
+            "nicheTitle": "High-Performance Python & Automated Workflow Bot",
+            "opportunityScore": 94.5,
+            "competitionDensity": "LOW (Only 420 active sellers offering full API automation)",
+            "avgTicketPriceUSD": 140,
+            "whyThisWins": "Generic Python gigs are crowded, but bundling API integration and automated deployment allows you to rank for high-intent business buyers immediately."
+          },
+          {
+            "nicheTitle": "Custom Business AI Chatbot & Customer Support Copilot",
+            "opportunityScore": 91,
+            "competitionDensity": "MEDIUM-LOW (High growth area with 3x surge in Buyer Briefs)",
+            "avgTicketPriceUSD": 185,
+            "whyThisWins": "E-commerce store owners are actively searching for custom AI support assistants that integrate directly with their catalog."
+          },
+          {
+            "nicheTitle": "Full-Stack MVP Development (Next.js + FastAPI + Database)",
+            "opportunityScore": 88,
+            "competitionDensity": "MEDIUM (High ticket, low price sensitivity)",
+            "avgTicketPriceUSD": 350,
+            "whyThisWins": "Founders looking to launch quick startup prototypes want complete full-stack MVPs rather than piecemeal frontend/backend work."
+          }
+        ],
+        "marketHiringRateInsight": "Fiverr hiring rate for AI automation and dynamic data solutions has grown 68% year-over-year. Buyers prefer sellers who offer clear 24-48 hour milestones rather than open-ended hourly commitments.",
+        "strategicPositioningAdvice": "Position yourself not as a 'coder', but as a 'business automation engineer'. In your gig descriptions, focus on how much time or money your software saves the client."
+      },
+      "onboardingCompleted": true,
+      "updatedAt": "2026-09-07T22:04:54.245Z"
+    },
+    "usr_1788818815059_vzn2t": {
+      "userId": "usr_1788818815059_vzn2t",
+      "fullName": "Alexander Wright",
+      "fiverrUrl": "https://www.fiverr.com/alexander_dev",
+      "experienceYears": "4 years",
+      "primarySkills": [
+        "Python",
+        "FastAPI",
+        "Next.js",
+        "AI Agents"
+      ],
+      "secondarySkills": [
+        "PostgreSQL",
+        "Docker",
+        "Tailwind"
+      ],
+      "targetNiches": [
+        "AI Chatbot Integration",
+        "Full-stack MVP Development"
+      ],
+      "marketStrategy": {
+        "recommendedNiches": [
+          {
+            "nicheTitle": "High-Performance Python & Automated Workflow Bot",
+            "opportunityScore": 94.5,
+            "competitionDensity": "LOW (Only 420 active sellers offering full API automation)",
+            "avgTicketPriceUSD": 140,
+            "whyThisWins": "Generic Python gigs are crowded, but bundling API integration and automated deployment allows you to rank for high-intent business buyers immediately."
+          },
+          {
+            "nicheTitle": "Custom Business AI Chatbot & Customer Support Copilot",
+            "opportunityScore": 91,
+            "competitionDensity": "MEDIUM-LOW (High growth area with 3x surge in Buyer Briefs)",
+            "avgTicketPriceUSD": 185,
+            "whyThisWins": "E-commerce store owners are actively searching for custom AI support assistants that integrate directly with their catalog."
+          },
+          {
+            "nicheTitle": "Full-Stack MVP Development (Next.js + FastAPI + Database)",
+            "opportunityScore": 88,
+            "competitionDensity": "MEDIUM (High ticket, low price sensitivity)",
+            "avgTicketPriceUSD": 350,
+            "whyThisWins": "Founders looking to launch quick startup prototypes want complete full-stack MVPs rather than piecemeal frontend/backend work."
+          }
+        ],
+        "marketHiringRateInsight": "Fiverr hiring rate for AI automation and dynamic data solutions has grown 68% year-over-year. Buyers prefer sellers who offer clear 24-48 hour milestones rather than open-ended hourly commitments.",
+        "strategicPositioningAdvice": "Position yourself not as a 'coder', but as a 'business automation engineer'. In your gig descriptions, focus on how much time or money your software saves the client."
+      },
+      "onboardingCompleted": true,
+      "updatedAt": "2026-09-07T22:06:55.162Z"
+    },
+    "usr_1788818885628_d7h8t": {
+      "userId": "usr_1788818885628_d7h8t",
+      "fullName": "Alexander Wright",
+      "fiverrUrl": "https://www.fiverr.com/alexander_dev",
+      "experienceYears": "4 years",
+      "primarySkills": [
+        "Python",
+        "FastAPI",
+        "Next.js",
+        "AI Agents"
+      ],
+      "secondarySkills": [
+        "PostgreSQL",
+        "Docker",
+        "Tailwind"
+      ],
+      "targetNiches": [
+        "AI Chatbot Integration",
+        "Full-stack MVP Development"
+      ],
+      "marketStrategy": {
+        "recommendedNiches": [
+          {
+            "nicheTitle": "High-Performance Python & Automated Workflow Bot",
+            "opportunityScore": 94.5,
+            "competitionDensity": "LOW (Only 420 active sellers offering full API automation)",
+            "avgTicketPriceUSD": 140,
+            "whyThisWins": "Generic Python gigs are crowded, but bundling API integration and automated deployment allows you to rank for high-intent business buyers immediately."
+          },
+          {
+            "nicheTitle": "Custom Business AI Chatbot & Customer Support Copilot",
+            "opportunityScore": 91,
+            "competitionDensity": "MEDIUM-LOW (High growth area with 3x surge in Buyer Briefs)",
+            "avgTicketPriceUSD": 185,
+            "whyThisWins": "E-commerce store owners are actively searching for custom AI support assistants that integrate directly with their catalog."
+          },
+          {
+            "nicheTitle": "Full-Stack MVP Development (Next.js + FastAPI + Database)",
+            "opportunityScore": 88,
+            "competitionDensity": "MEDIUM (High ticket, low price sensitivity)",
+            "avgTicketPriceUSD": 350,
+            "whyThisWins": "Founders looking to launch quick startup prototypes want complete full-stack MVPs rather than piecemeal frontend/backend work."
+          }
+        ],
+        "marketHiringRateInsight": "Fiverr hiring rate for AI automation and dynamic data solutions has grown 68% year-over-year. Buyers prefer sellers who offer clear 24-48 hour milestones rather than open-ended hourly commitments.",
+        "strategicPositioningAdvice": "Position yourself not as a 'coder', but as a 'business automation engineer'. In your gig descriptions, focus on how much time or money your software saves the client."
+      },
+      "onboardingCompleted": true,
+      "updatedAt": "2026-09-07T22:08:05.730Z"
     }
   },
   "gigs": [
+    {
+      "id": "gig_1788818886144",
+      "service_niche": "AI Chatbot Integration for Shopify",
+      "primary_skill": "Python, FastAPI, OpenAI API",
+      "target_turnaround": "24 Hours",
+      "title": "I will develop high performance ai chatbot integration for shopify scripts and bots",
+      "category": "Programming & Tech",
+      "sub_category": "Data Scraping & Extraction",
+      "search_tags": [
+        "python bot",
+        "automation",
+        "data scraping",
+        "web scraper",
+        "scripting"
+      ],
+      "description": "## Professional AI Chatbot Integration for Shopify Services\n\nLooking for reliable, scalable automation? I specialize in building custom scripts that handle complex tasks effortlessly.\n\n### What I Deliver:\n- Error-handled custom code\n- High-speed performance\n- Clean documentation & deployment\n\n**Contact me now to discuss your custom project requirements!**",
+      "packages": {
+        "basic": {
+          "name": "Basic Setup",
+          "title": "Single Automation Script",
+          "description": "One clean task automation script with output formatting.",
+          "delivery_days": 1,
+          "price_usd": 30,
+          "revisions": 1
+        },
+        "standard": {
+          "name": "Standard Package",
+          "title": "Multi-Step Automation & API",
+          "description": "Dynamic script with database/Google Sheets integration.",
+          "delivery_days": 2,
+          "price_usd": 85,
+          "revisions": 3
+        },
+        "premium": {
+          "name": "Enterprise Solution",
+          "title": "Complete Automated System",
+          "description": "Full end-to-end automation with proxy handling, cloud deploy, and dashboard.",
+          "delivery_days": 4,
+          "price_usd": 200,
+          "revisions": 999
+        }
+      },
+      "faqs": [
+        {
+          "question": "How do we get started?",
+          "answer": "Simply share your target specifications or website link and I will prepare a sample demo."
+        }
+      ],
+      "buyer_requirements": [
+        "Target requirements document or URL",
+        "Desired output format"
+      ],
+      "seo_score": 95,
+      "userId": "usr_1788818885628_d7h8t",
+      "createdAt": "2026-09-07T22:08:06.144Z"
+    },
+    {
+      "id": "gig_1788818815614",
+      "service_niche": "AI Chatbot Integration for Shopify",
+      "primary_skill": "Python, FastAPI, OpenAI API",
+      "target_turnaround": "24 Hours",
+      "title": "I will develop high performance ai chatbot integration for shopify scripts and bots",
+      "category": "Programming & Tech",
+      "sub_category": "Data Scraping & Extraction",
+      "search_tags": [
+        "python bot",
+        "automation",
+        "data scraping",
+        "web scraper",
+        "scripting"
+      ],
+      "description": "## Professional AI Chatbot Integration for Shopify Services\n\nLooking for reliable, scalable automation? I specialize in building custom scripts that handle complex tasks effortlessly.\n\n### What I Deliver:\n- Error-handled custom code\n- High-speed performance\n- Clean documentation & deployment\n\n**Contact me now to discuss your custom project requirements!**",
+      "packages": {
+        "basic": {
+          "name": "Basic Setup",
+          "title": "Single Automation Script",
+          "description": "One clean task automation script with output formatting.",
+          "delivery_days": 1,
+          "price_usd": 30,
+          "revisions": 1
+        },
+        "standard": {
+          "name": "Standard Package",
+          "title": "Multi-Step Automation & API",
+          "description": "Dynamic script with database/Google Sheets integration.",
+          "delivery_days": 2,
+          "price_usd": 85,
+          "revisions": 3
+        },
+        "premium": {
+          "name": "Enterprise Solution",
+          "title": "Complete Automated System",
+          "description": "Full end-to-end automation with proxy handling, cloud deploy, and dashboard.",
+          "delivery_days": 4,
+          "price_usd": 200,
+          "revisions": 999
+        }
+      },
+      "faqs": [
+        {
+          "question": "How do we get started?",
+          "answer": "Simply share your target specifications or website link and I will prepare a sample demo."
+        }
+      ],
+      "buyer_requirements": [
+        "Target requirements document or URL",
+        "Desired output format"
+      ],
+      "seo_score": 95,
+      "userId": "usr_1788818815059_vzn2t",
+      "createdAt": "2026-09-07T22:06:55.614Z"
+    },
+    {
+      "id": "gig_1788818694686",
+      "service_niche": "AI Chatbot Integration for Shopify",
+      "primary_skill": "Python, FastAPI, OpenAI API",
+      "target_turnaround": "24 Hours",
+      "title": "I will develop high performance ai chatbot integration for shopify scripts and bots",
+      "category": "Programming & Tech",
+      "sub_category": "Data Scraping & Extraction",
+      "search_tags": [
+        "python bot",
+        "automation",
+        "data scraping",
+        "web scraper",
+        "scripting"
+      ],
+      "description": "## Professional AI Chatbot Integration for Shopify Services\n\nLooking for reliable, scalable automation? I specialize in building custom scripts that handle complex tasks effortlessly.\n\n### What I Deliver:\n- Error-handled custom code\n- High-speed performance\n- Clean documentation & deployment\n\n**Contact me now to discuss your custom project requirements!**",
+      "packages": {
+        "basic": {
+          "name": "Basic Setup",
+          "title": "Single Automation Script",
+          "description": "One clean task automation script with output formatting.",
+          "delivery_days": 1,
+          "price_usd": 30,
+          "revisions": 1
+        },
+        "standard": {
+          "name": "Standard Package",
+          "title": "Multi-Step Automation & API",
+          "description": "Dynamic script with database/Google Sheets integration.",
+          "delivery_days": 2,
+          "price_usd": 85,
+          "revisions": 3
+        },
+        "premium": {
+          "name": "Enterprise Solution",
+          "title": "Complete Automated System",
+          "description": "Full end-to-end automation with proxy handling, cloud deploy, and dashboard.",
+          "delivery_days": 4,
+          "price_usd": 200,
+          "revisions": 999
+        }
+      },
+      "faqs": [
+        {
+          "question": "How do we get started?",
+          "answer": "Simply share your target specifications or website link and I will prepare a sample demo."
+        }
+      ],
+      "buyer_requirements": [
+        "Target requirements document or URL",
+        "Desired output format"
+      ],
+      "seo_score": 95,
+      "userId": "usr_1788818694148_71iuo",
+      "createdAt": "2026-09-07T22:04:54.686Z"
+    },
+    {
+      "id": "gig_1788818673697",
+      "service_niche": "AI Chatbot Integration for Shopify",
+      "primary_skill": "Python, FastAPI, OpenAI API",
+      "target_turnaround": "24 Hours",
+      "title": "I will develop high performance ai chatbot integration for shopify scripts and bots",
+      "category": "Programming & Tech",
+      "sub_category": "Data Scraping & Extraction",
+      "search_tags": [
+        "python bot",
+        "automation",
+        "data scraping",
+        "web scraper",
+        "scripting"
+      ],
+      "description": "## Professional AI Chatbot Integration for Shopify Services\n\nLooking for reliable, scalable automation? I specialize in building custom scripts that handle complex tasks effortlessly.\n\n### What I Deliver:\n- Error-handled custom code\n- High-speed performance\n- Clean documentation & deployment\n\n**Contact me now to discuss your custom project requirements!**",
+      "packages": {
+        "basic": {
+          "name": "Basic Setup",
+          "title": "Single Automation Script",
+          "description": "One clean task automation script with output formatting.",
+          "delivery_days": 1,
+          "price_usd": 30,
+          "revisions": 1
+        },
+        "standard": {
+          "name": "Standard Package",
+          "title": "Multi-Step Automation & API",
+          "description": "Dynamic script with database/Google Sheets integration.",
+          "delivery_days": 2,
+          "price_usd": 85,
+          "revisions": 3
+        },
+        "premium": {
+          "name": "Enterprise Solution",
+          "title": "Complete Automated System",
+          "description": "Full end-to-end automation with proxy handling, cloud deploy, and dashboard.",
+          "delivery_days": 4,
+          "price_usd": 200,
+          "revisions": 999
+        }
+      },
+      "faqs": [
+        {
+          "question": "How do we get started?",
+          "answer": "Simply share your target specifications or website link and I will prepare a sample demo."
+        }
+      ],
+      "buyer_requirements": [
+        "Target requirements document or URL",
+        "Desired output format"
+      ],
+      "seo_score": 95,
+      "userId": "usr_1788818673053_qj5pi",
+      "createdAt": "2026-09-07T22:04:33.697Z"
+    },
+    {
+      "id": "gig_1788818652501",
+      "service_niche": "AI Chatbot Integration for Shopify",
+      "primary_skill": "Python, FastAPI, OpenAI API",
+      "target_turnaround": "24 Hours",
+      "title": "I will develop high performance ai chatbot integration for shopify scripts and bots",
+      "category": "Programming & Tech",
+      "sub_category": "Data Scraping & Extraction",
+      "search_tags": [
+        "python bot",
+        "automation",
+        "data scraping",
+        "web scraper",
+        "scripting"
+      ],
+      "description": "## Professional AI Chatbot Integration for Shopify Services\n\nLooking for reliable, scalable automation? I specialize in building custom scripts that handle complex tasks effortlessly.\n\n### What I Deliver:\n- Error-handled custom code\n- High-speed performance\n- Clean documentation & deployment\n\n**Contact me now to discuss your custom project requirements!**",
+      "packages": {
+        "basic": {
+          "name": "Basic Setup",
+          "title": "Single Automation Script",
+          "description": "One clean task automation script with output formatting.",
+          "delivery_days": 1,
+          "price_usd": 30,
+          "revisions": 1
+        },
+        "standard": {
+          "name": "Standard Package",
+          "title": "Multi-Step Automation & API",
+          "description": "Dynamic script with database/Google Sheets integration.",
+          "delivery_days": 2,
+          "price_usd": 85,
+          "revisions": 3
+        },
+        "premium": {
+          "name": "Enterprise Solution",
+          "title": "Complete Automated System",
+          "description": "Full end-to-end automation with proxy handling, cloud deploy, and dashboard.",
+          "delivery_days": 4,
+          "price_usd": 200,
+          "revisions": 999
+        }
+      },
+      "faqs": [
+        {
+          "question": "How do we get started?",
+          "answer": "Simply share your target specifications or website link and I will prepare a sample demo."
+        }
+      ],
+      "buyer_requirements": [
+        "Target requirements document or URL",
+        "Desired output format"
+      ],
+      "seo_score": 95,
+      "userId": "usr_1788818651870_cyawc",
+      "createdAt": "2026-09-07T22:04:12.501Z"
+    },
     {
       "id": "gig_1788818038479",
       "service_niche": "AI Chatbot Integration for Shopify",
@@ -456,6 +1021,71 @@
     }
   ],
   "briefs": [
+    {
+      "id": "brief_1788818886173",
+      "brief_text": "Need a developer to build an automated AI customer support chatbot for my store.",
+      "buyer_budget": "$200",
+      "urgency": "2 days",
+      "proposal_text": "I reviewed your requirements: \"Need a developer to build an automated AI customer support chatbot for my store....\".\n\nHere is my 3-step action plan:\n1. Analyze and isolate target data endpoints / workflow logic.\n2. Develop a resilient script with built-in error handling and rate-limit safety.\n3. Format output cleanly to your exact specification.\n\nI can deliver an initial verified sample within 24 hours. Let me know if you'd like to review a quick demo!",
+      "suggested_bid_usd": 200,
+      "recommended_delivery_days": 2,
+      "key_selling_hook": "Fast 24-hour sample preview with error-handled code",
+      "confidence_score": 0.92,
+      "userId": "usr_1788818885628_d7h8t",
+      "createdAt": "2026-09-07T22:08:06.173Z"
+    },
+    {
+      "id": "brief_1788818815638",
+      "brief_text": "Need a developer to build an automated AI customer support chatbot for my store.",
+      "buyer_budget": "$200",
+      "urgency": "2 days",
+      "proposal_text": "I reviewed your requirements: \"Need a developer to build an automated AI customer support chatbot for my store....\".\n\nHere is my 3-step action plan:\n1. Analyze and isolate target data endpoints / workflow logic.\n2. Develop a resilient script with built-in error handling and rate-limit safety.\n3. Format output cleanly to your exact specification.\n\nI can deliver an initial verified sample within 24 hours. Let me know if you'd like to review a quick demo!",
+      "suggested_bid_usd": 200,
+      "recommended_delivery_days": 2,
+      "key_selling_hook": "Fast 24-hour sample preview with error-handled code",
+      "confidence_score": 0.92,
+      "userId": "usr_1788818815059_vzn2t",
+      "createdAt": "2026-09-07T22:06:55.638Z"
+    },
+    {
+      "id": "brief_1788818694712",
+      "brief_text": "Need a developer to build an automated AI customer support chatbot for my store.",
+      "buyer_budget": "$200",
+      "urgency": "2 days",
+      "proposal_text": "I reviewed your requirements: \"Need a developer to build an automated AI customer support chatbot for my store....\".\n\nHere is my 3-step action plan:\n1. Analyze and isolate target data endpoints / workflow logic.\n2. Develop a resilient script with built-in error handling and rate-limit safety.\n3. Format output cleanly to your exact specification.\n\nI can deliver an initial verified sample within 24 hours. Let me know if you'd like to review a quick demo!",
+      "suggested_bid_usd": 200,
+      "recommended_delivery_days": 2,
+      "key_selling_hook": "Fast 24-hour sample preview with error-handled code",
+      "confidence_score": 0.92,
+      "userId": "usr_1788818694148_71iuo",
+      "createdAt": "2026-09-07T22:04:54.712Z"
+    },
+    {
+      "id": "brief_1788818673723",
+      "brief_text": "Need a developer to build an automated AI customer support chatbot for my store.",
+      "buyer_budget": "$200",
+      "urgency": "2 days",
+      "proposal_text": "I reviewed your requirements: \"Need a developer to build an automated AI customer support chatbot for my store....\".\n\nHere is my 3-step action plan:\n1. Analyze and isolate target data endpoints / workflow logic.\n2. Develop a resilient script with built-in error handling and rate-limit safety.\n3. Format output cleanly to your exact specification.\n\nI can deliver an initial verified sample within 24 hours. Let me know if you'd like to review a quick demo!",
+      "suggested_bid_usd": 200,
+      "recommended_delivery_days": 2,
+      "key_selling_hook": "Fast 24-hour sample preview with error-handled code",
+      "confidence_score": 0.92,
+      "userId": "usr_1788818673053_qj5pi",
+      "createdAt": "2026-09-07T22:04:33.723Z"
+    },
+    {
+      "id": "brief_1788818652528",
+      "brief_text": "Need a developer to build an automated AI customer support chatbot for my store.",
+      "buyer_budget": "$200",
+      "urgency": "2 days",
+      "proposal_text": "I reviewed your requirements: \"Need a developer to build an automated AI customer support chatbot for my store....\".\n\nHere is my 3-step action plan:\n1. Analyze and isolate target data endpoints / workflow logic.\n2. Develop a resilient script with built-in error handling and rate-limit safety.\n3. Format output cleanly to your exact specification.\n\nI can deliver an initial verified sample within 24 hours. Let me know if you'd like to review a quick demo!",
+      "suggested_bid_usd": 200,
+      "recommended_delivery_days": 2,
+      "key_selling_hook": "Fast 24-hour sample preview with error-handled code",
+      "confidence_score": 0.92,
+      "userId": "usr_1788818651870_cyawc",
+      "createdAt": "2026-09-07T22:04:12.528Z"
+    },
     {
       "id": "brief_1788818038500",
       "brief_text": "Need a developer to build an automated AI customer support chatbot for my store.",

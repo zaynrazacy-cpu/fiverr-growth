@@ -1,4 +1,4 @@
-﻿import { describe, it, expect } from "vitest";
+import { describe, it, expect } from "vitest";
 import request from "supertest";
 import { app } from "../src/app.js";
 
@@ -125,5 +125,20 @@ describe("FiverrGrowth Backend End-to-End Suite", () => {
     expect(res.body.success).toBe(true);
     expect(res.body.data.userId).toBe(testUserId);
     expect(res.body.data.proposal_text.length).toBeGreaterThan(40);
+  });
+
+  it("GET /api/v1/briefs/live should return real live client briefs from external remote feeds", async () => {
+    const res = await request(app).get("/api/v1/briefs/live?tag=developer&limit=5");
+    expect(res.status).toBe(200);
+    expect(res.body.success).toBe(true);
+    expect(res.body.data).toBeInstanceOf(Array);
+  });
+
+  it("GET /api/v1/market/intelligence should return real live market intelligence and buyer queries", async () => {
+    const res = await request(app).get("/api/v1/market/intelligence?niche=python");
+    expect(res.status).toBe(200);
+    expect(res.body.success).toBe(true);
+    expect(res.body.data.buyer_search_keywords).toBeInstanceOf(Array);
+    expect(res.body.data.opportunity_score).toBeGreaterThan(0);
   });
 });
