@@ -1,0 +1,110 @@
+{
+  "gigs": [
+    {
+      "id": "gig_1788815209505",
+      "service_niche": "Python Web Scraping & Lead Generation",
+      "primary_skill": "Python, Playwright, Scrapy",
+      "experience_level": "Expert",
+      "title": "I will develop high performance python web scraping & lead generation scripts and bots",
+      "category": "Programming & Tech",
+      "sub_category": "Data Scraping & Extraction",
+      "search_tags": [
+        "python bot",
+        "automation",
+        "data scraping",
+        "web scraper",
+        "scripting"
+      ],
+      "description": "## Professional Python Web Scraping & Lead Generation Services\n\nLooking for reliable, scalable automation? I specialize in building custom scripts that handle complex tasks effortlessly.\n\n### What I Deliver:\n- Error-handled custom code\n- High-speed performance\n- Clean documentation & deployment\n\n**Contact me now to discuss your custom project requirements!**",
+      "packages": {
+        "basic": {
+          "name": "Basic Setup",
+          "title": "Single Automation Script",
+          "description": "One clean task automation script with output formatting.",
+          "delivery_days": 1,
+          "price_usd": 30,
+          "revisions": 1
+        },
+        "standard": {
+          "name": "Standard Package",
+          "title": "Multi-Step Automation & API",
+          "description": "Dynamic script with database/Google Sheets integration.",
+          "delivery_days": 2,
+          "price_usd": 85,
+          "revisions": 3
+        },
+        "premium": {
+          "name": "Enterprise Solution",
+          "title": "Complete Automated System",
+          "description": "Full end-to-end automation with proxy handling, cloud deploy, and dashboard.",
+          "delivery_days": 4,
+          "price_usd": 200,
+          "revisions": 999
+        }
+      },
+      "faqs": [
+        {
+          "question": "How do we get started?",
+          "answer": "Simply share your target specifications or website link and I will prepare a sample demo."
+        }
+      ],
+      "buyer_requirements": [
+        "Target requirements document or URL",
+        "Desired output format"
+      ],
+      "seo_score": 95,
+      "createdAt": "2026-09-07T21:06:49.505Z"
+    }
+  ],
+  "briefs": [
+    {
+      "id": "brief_1788815209545",
+      "brief_text": "Need a developer to scrape real estate listings from Redfin daily to CSV.",
+      "buyer_budget": "$150",
+      "urgency": "2 days",
+      "user_skills": [
+        "Python",
+        "Playwright",
+        "FastAPI"
+      ],
+      "proposal_text": "I reviewed your requirements: \"Need a developer to scrape real estate listings from Redfin daily to CSV....\".\n\nHere is my 3-step action plan:\n1. Analyze and isolate target data endpoints / workflow logic.\n2. Develop a resilient script with built-in error handling and rate-limit safety.\n3. Format output cleanly to your exact specification.\n\nI can deliver an initial verified sample within 24 hours. Let me know if you'd like to review a quick demo!",
+      "suggested_bid_usd": 150,
+      "recommended_delivery_days": 2,
+      "key_selling_hook": "Fast 24-hour sample preview with error-handled code",
+      "confidence_score": 0.92,
+      "createdAt": "2026-09-07T21:06:49.545Z"
+    }
+  ],
+  "researchHistory": [
+    {
+      "id": "res_1788815209569",
+      "skill_keywords": [
+        "Python scraper",
+        "FastAPI bot"
+      ],
+      "target_category": "Programming & Tech",
+      "target_keywords": [
+        {
+          "keyword": "Python scraper",
+          "competition_level": "LOW",
+          "avg_queue_count": 5,
+          "opportunity_score": 91.5,
+          "recommendation": "Use this keyword prominently in the first 4 words of your gig title."
+        }
+      ],
+      "pricing_benchmarks": {
+        "avg_basic_price": 25,
+        "avg_standard_price": 80,
+        "avg_premium_price": 195,
+        "recommended_entry_price": 30
+      },
+      "high_demand_gaps": [
+        "Fast 24-hour delivery on basic automation",
+        "Clear documentation and video walkthroughs"
+      ],
+      "strategic_advice": "Highlight reliability and anti-ban safeguards to beat lower-rated competitors.",
+      "overall_niche_score": 88,
+      "createdAt": "2026-09-07T21:06:49.569Z"
+    }
+  ]
+}
