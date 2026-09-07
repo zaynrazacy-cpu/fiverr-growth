@@ -1,18 +1,32 @@
 ﻿import { Router } from "express";
+import { authController } from "../controllers/auth.controller.js";
+import { strategistController } from "../controllers/strategist.controller.js";
 import { apiController } from "../controllers/api.controller.js";
+import { requireAuth, optionalAuth } from "../middlewares/auth.middleware.js";
 
 const router = Router();
 
-// Gig Generator routes
-router.post("/gigs/generate", (req, res) => apiController.generateGig(req, res));
-router.get("/gigs", (req, res) => apiController.getGigs(req, res));
+// --- Auth Routes ---
+router.post("/auth/register", (req, res) => authController.register(req, res));
+router.post("/auth/login", (req, res) => authController.login(req, res));
+router.get("/auth/me", requireAuth, (req, res) => authController.me(req, res));
 
-// Buyer Briefs routes
-router.post("/briefs/propose", (req, res) => apiController.proposeBrief(req, res));
-router.get("/briefs", (req, res) => apiController.getBriefs(req, res));
+// --- Onboarding & Growth Strategist Routes ---
+router.post("/onboarding/message", optionalAuth, (req, res) => strategistController.handleInterviewTurn(req, res));
+router.post("/onboarding/synthesize-strategy", optionalAuth, (req, res) => strategistController.synthesizeStrategy(req, res));
+router.get("/user/context", requireAuth, (req, res) => strategistController.getContext(req, res));
+router.put("/user/context", requireAuth, (req, res) => strategistController.updateContext(req, res));
 
-// Market Research routes
-router.post("/research/niche", (req, res) => apiController.researchNiche(req, res));
-router.get("/research/history", (req, res) => apiController.getResearchHistory(req, res));
+// --- Gig Generator Routes ---
+router.post("/gigs/generate", optionalAuth, (req, res) => apiController.generateGig(req, res));
+router.get("/gigs", optionalAuth, (req, res) => apiController.getGigs(req, res));
+
+// --- Buyer Briefs Routes ---
+router.post("/briefs/propose", optionalAuth, (req, res) => apiController.proposeBrief(req, res));
+router.get("/briefs", optionalAuth, (req, res) => apiController.getBriefs(req, res));
+
+// --- Market Research Routes ---
+router.post("/research/niche", optionalAuth, (req, res) => apiController.researchNiche(req, res));
+router.get("/research/history", optionalAuth, (req, res) => apiController.getResearchHistory(req, res));
 
 export default router;

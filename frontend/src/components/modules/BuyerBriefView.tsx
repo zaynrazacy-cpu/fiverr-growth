@@ -1,14 +1,27 @@
-﻿import React, { useState } from 'react';
-import { Send, Copy, Check, Clock, DollarSign, Award, RefreshCw } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Send, Copy, Check, Clock, DollarSign, Award, RefreshCw, CheckCircle2, UserCheck } from 'lucide-react';
+import { useAuth } from '../../context/AuthContext';
 
 export const BuyerBriefView: React.FC<{ onProposalGenerated?: () => void }> = ({ onProposalGenerated }) => {
-  const [briefText, setBriefText] = useState('Need an expert Python developer to scrape real estate listings from Redfin and Realtor.com and output clean CSV daily. Must handle anti-bot protection.');
-  const [budget, setBudget] = useState('$150');
-  const [urgency, setUrgency] = useState('2 Days');
-  const [skills, setSkills] = useState('Python, Playwright, Scrapy, BeautifulSoup');
+  const { user, userContext } = useAuth();
+
+  const [briefText, setBriefText] = useState(
+    'Need an expert developer to build a modern full-stack web application with responsive UI, clean backend APIs, and integration of an AI customer chatbot. Need fast turnaround and clean documentation.'
+  );
+  const [budget, setBudget] = useState('$350');
+  const [urgency, setUrgency] = useState('3 Days');
+  const [skills, setSkills] = useState(
+    userContext?.profile?.skills?.join(', ') || 'Next.js, React, Node.js, Python, Tailwind CSS'
+  );
   const [loading, setLoading] = useState(false);
   const [proposal, setProposal] = useState<any>(null);
   const [copied, setCopied] = useState(false);
+
+  useEffect(() => {
+    if (userContext?.profile?.skills) {
+      setSkills(userContext.profile.skills.join(', '));
+    }
+  }, [userContext]);
 
   const handlePropose = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -18,10 +31,11 @@ export const BuyerBriefView: React.FC<{ onProposalGenerated?: () => void }> = ({
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
+          user_id: user?.id,
           brief_text: briefText,
           buyer_budget: budget,
           urgency: urgency,
-          user_skills: skills.split(',').map((s) => s.trim()),
+          user_skills: skills.split(',').map((s) => s.trim()).filter(Boolean),
         }),
       });
       const json = await res.json();
@@ -45,6 +59,37 @@ export const BuyerBriefView: React.FC<{ onProposalGenerated?: () => void }> = ({
 
   return (
     <div className="space-y-8">
+      {/* Context Grounding Indicator */}
+      {userContext?.profile && (
+        <div className="glass-panel p-4 rounded-2xl border border-cyan-500/20 bg-cyan-950/20 flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 rounded-lg bg-cyan-500/20 border border-cyan-500/30 flex items-center justify-center text-cyan-400 shrink-0">
+              <UserCheck className="w-4 h-4" />
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-bold text-white">
+                  Pitching as: {userContext.profile.name || user?.username}
+                </span>
+                <span className="text-[10px] px-2 py-0.2 rounded-full bg-cyan-500/20 text-cyan-300 font-mono">
+                  Profile Grounded
+                </span>
+              </div>
+              <p className="text-[11px] text-gray-400">
+                {userContext.profile.fiverr_profile_url
+                  ? `Portfolio Linked: ${userContext.profile.fiverr_profile_url}`
+                  : 'Tailored using verified skills & positioning'}
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-1.5 text-xs text-cyan-300 font-mono">
+            <CheckCircle2 className="w-3.5 h-3.5" />
+            Zero Generic Fluff
+          </div>
+        </div>
+      )}
+
       {/* Input Card */}
       <div className="glass-panel p-6 rounded-2xl border border-white/5">
         <div className="mb-4">

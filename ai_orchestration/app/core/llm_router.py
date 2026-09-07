@@ -1,4 +1,4 @@
-﻿import json
+import json
 import logging
 from typing import Optional, Dict, Any
 from groq import Groq
@@ -17,10 +17,29 @@ class LLMRouter:
         self,
         prompt: str,
         system_prompt: Optional[str] = None,
-        max_tokens: int = 1000,
+        max_tokens: int = 900,
         temperature: float = 0.7
     ) -> str:
-        # 1. Primary: Gemini 2.5 Flash
+        # 1. Primary: Groq openai/gpt-oss-120b
+        if self.groq_client:
+            for model_name in ["openai/gpt-oss-120b", "openai/gpt-oss-20b", "qwen/qwen3.8-27b"]:
+                try:
+                    messages = []
+                    if system_prompt:
+                        messages.append({"role": "system", "content": system_prompt})
+                    messages.append({"role": "user", "content": prompt})
+                    
+                    res = self.groq_client.chat.completions.create(
+                        model=model_name,
+                        messages=messages,
+                        max_tokens=max_tokens,
+                        temperature=temperature
+                    )
+                    return res.choices[0].message.content.strip()
+                except Exception as e:
+                    logger.warning(f"Groq model {model_name} failed: {e}, attempting next...")
+
+        # 2. Secondary: Gemini
         if self.gemini_client:
             try:
                 config = types.GenerateContentConfig(
@@ -36,26 +55,7 @@ class LLMRouter:
                 if res and res.text:
                     return res.text.strip()
             except Exception as e:
-                logger.warning(f"Gemini generation failed: {e}, falling back to Groq...")
-
-        # 2. Fallback: Groq (gpt-oss-120b or qwen3.8-27b)
-        if self.groq_client:
-            try:
-                messages = []
-                if system_prompt:
-                    messages.append({"role": "system", "content": system_prompt})
-                messages.append({"role": "user", "content": prompt})
-                
-                res = self.groq_client.chat.completions.create(
-                    model="qwen/qwen3.8-27b",
-                    messages=messages,
-                    max_tokens=max_tokens,
-                    temperature=temperature
-                )
-                return res.choices[0].message.content.strip()
-            except Exception as e:
-                logger.error(f"Groq fallback also failed: {e}")
-                raise e
+                logger.warning(f"Gemini fallback failed: {e}")
 
         raise RuntimeError("No working LLM provider is available.")
 
@@ -63,9 +63,29 @@ class LLMRouter:
         self,
         prompt: str,
         system_prompt: Optional[str] = None,
-        max_tokens: int = 2500
+        max_tokens: int = 950
     ) -> Dict[str, Any]:
-        # 1. Primary for JSON: Gemini 2.5 Flash native JSON mode
+        # 1. Primary for JSON: Groq with response_format={"type": "json_object"}
+        if self.groq_client:
+            for model_name in ["openai/gpt-oss-120b", "openai/gpt-oss-20b"]:
+                try:
+                    messages = []
+                    sys_msg = (system_prompt or "") + "\nYou MUST respond with strictly valid JSON only."
+                    messages.append({"role": "system", "content": sys_msg})
+                    messages.append({"role": "user", "content": prompt})
+
+                    res = self.groq_client.chat.completions.create(
+                        model=model_name,
+                        messages=messages,
+                        response_format={"type": "json_object"},
+                        max_tokens=max_tokens,
+                        temperature=0.2
+                    )
+                    return json.loads(res.choices[0].message.content)
+                except Exception as e:
+                    logger.warning(f"Groq JSON {model_name} failed: {e}, attempting next...")
+
+        # 2. Secondary: Gemini
         if self.gemini_client:
             try:
                 config = types.GenerateContentConfig(
@@ -81,27 +101,7 @@ class LLMRouter:
                 )
                 return json.loads(res.text)
             except Exception as e:
-                logger.warning(f"Gemini JSON generation failed: {e}, attempting Groq...")
-
-        # 2. Fallback: Groq with response_format={"type": "json_object"}
-        if self.groq_client:
-            try:
-                messages = []
-                sys_msg = (system_prompt or "") + "\nYou MUST respond with strictly valid JSON only."
-                messages.append({"role": "system", "content": sys_msg})
-                messages.append({"role": "user", "content": prompt})
-
-                res = self.groq_client.chat.completions.create(
-                    model="qwen/qwen3.8-27b",
-                    messages=messages,
-                    response_format={"type": "json_object"},
-                    max_tokens=max_tokens,
-                    temperature=0.2
-                )
-                return json.loads(res.choices[0].message.content)
-            except Exception as e:
-                logger.error(f"Groq JSON fallback failed: {e}")
-                raise e
+                logger.error(f"Gemini JSON failed: {e}")
 
         raise RuntimeError("No LLM available for JSON generation.")
 

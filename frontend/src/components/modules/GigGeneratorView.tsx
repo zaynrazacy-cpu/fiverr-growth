@@ -1,14 +1,41 @@
-﻿import React, { useState } from 'react';
-import { Sparkles, Copy, Check, TrendingUp, Clock, RefreshCw } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Sparkles, Copy, Check, TrendingUp, Clock, RefreshCw, Award, Zap } from 'lucide-react';
+import { useAuth } from '../../context/AuthContext';
 
-export const GigGeneratorView: React.FC<{ onGigGenerated?: () => void }> = ({ onGigGenerated }) => {
-  const [niche, setNiche] = useState('Python Web Scraping & Lead Generation');
-  const [skill, setSkill] = useState('Python, Playwright, Scrapy, BeautifulSoup');
+interface GigGeneratorViewProps {
+  onGigGenerated?: () => void;
+  initialNiche?: string;
+  initialSkills?: string;
+}
+
+export const GigGeneratorView: React.FC<GigGeneratorViewProps> = ({
+  onGigGenerated,
+  initialNiche,
+  initialSkills,
+}) => {
+  const { user, userContext } = useAuth();
+
+  const [niche, setNiche] = useState(
+    initialNiche ||
+      userContext?.strategy?.recommended_gigs?.[0]?.title ||
+      'Production-Grade Next.js & React Web Application'
+  );
+  const [skill, setSkill] = useState(
+    initialSkills ||
+      userContext?.profile?.skills?.join(', ') ||
+      'React, Next.js, Node.js, Tailwind CSS, TypeScript'
+  );
   const [experience, setExperience] = useState('Expert');
   const [turnaround, setTurnaround] = useState('24 Hours');
   const [loading, setLoading] = useState(false);
   const [gig, setGig] = useState<any>(null);
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
+
+  // Sync props when user selects a recommended gig from Onboarding Blueprint
+  useEffect(() => {
+    if (initialNiche) setNiche(initialNiche);
+    if (initialSkills) setSkill(initialSkills);
+  }, [initialNiche, initialSkills]);
 
   const handleGenerate = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -18,6 +45,7 @@ export const GigGeneratorView: React.FC<{ onGigGenerated?: () => void }> = ({ on
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
+          user_id: user?.id,
           service_niche: niche,
           primary_skill: skill,
           experience_level: experience,
@@ -44,6 +72,48 @@ export const GigGeneratorView: React.FC<{ onGigGenerated?: () => void }> = ({ on
 
   return (
     <div className="space-y-8">
+      {/* Context Grounding Banner */}
+      {userContext?.strategy && (
+        <div className="glass-panel p-4 rounded-2xl border border-emerald-500/20 bg-emerald-950/20 flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 rounded-lg bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-emerald-400 shrink-0">
+              <Award className="w-4 h-4" />
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-bold text-white">
+                  Grounded with {userContext.profile.name || user?.username}'s Blueprint
+                </span>
+                <span className="text-[10px] px-2 py-0.2 rounded-full bg-emerald-500/20 text-emerald-300 font-mono">
+                  Context Active
+                </span>
+              </div>
+              <p className="text-[11px] text-gray-400">
+                Targeting: {userContext.strategy.profile_positioning?.recommended_title || 'Expert Freelancer'} &bull; User ID: {user?.id}
+              </p>
+            </div>
+          </div>
+
+          {/* Quick chip selector from recommended gigs */}
+          {userContext.strategy.recommended_gigs && userContext.strategy.recommended_gigs.length > 0 && (
+            <div className="flex flex-wrap items-center gap-1.5 self-stretch md:self-auto">
+              <span className="text-[10px] text-gray-400 font-semibold mr-1">Recommended:</span>
+              {userContext.strategy.recommended_gigs.slice(0, 2).map((rec, i) => (
+                <button
+                  key={i}
+                  type="button"
+                  onClick={() => setNiche(rec.title)}
+                  className="text-[10px] px-2.5 py-1 rounded-lg bg-white/5 hover:bg-emerald-500/20 hover:text-emerald-300 text-gray-300 border border-white/5 transition-all flex items-center gap-1"
+                >
+                  <Zap className="w-3 h-3 text-emerald-400" />
+                  {rec.niche || rec.title.substring(0, 24)}...
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+
       {/* Form Card */}
       <div className="glass-panel p-6 rounded-2xl border border-white/5">
         <div className="flex items-center justify-between mb-4">

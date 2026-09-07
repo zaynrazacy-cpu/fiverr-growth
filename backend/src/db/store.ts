@@ -7,7 +7,40 @@ const __dirname = path.dirname(__filename);
 const DATA_DIR = path.resolve(__dirname, "../../data");
 const DB_FILE = path.join(DATA_DIR, "store.json");
 
+export interface User {
+  id: string;
+  email: string;
+  username: string;
+  passwordHash: string;
+  createdAt: string;
+}
+
+export interface UserContext {
+  userId: string;
+  fullName: string;
+  fiverrUrl: string;
+  experienceYears: string;
+  primarySkills: string[];
+  secondarySkills: string[];
+  targetNiches: string[];
+  marketStrategy: {
+    recommendedNiches: {
+      nicheTitle: string;
+      opportunityScore: number;
+      competitionDensity: string;
+      avgTicketPriceUSD: number;
+      whyThisWins: string;
+    }[];
+    marketHiringRateInsight: string;
+    strategicPositioningAdvice: string;
+  };
+  onboardingCompleted: boolean;
+  updatedAt: string;
+}
+
 interface DatabaseSchema {
+  users: User[];
+  userContexts: Record<string, UserContext>;
   gigs: any[];
   briefs: any[];
   researchHistory: any[];
@@ -22,12 +55,19 @@ class Store {
     }
     if (fs.existsSync(DB_FILE)) {
       try {
-        this.data = JSON.parse(fs.readFileSync(DB_FILE, "utf-8"));
+        const raw = JSON.parse(fs.readFileSync(DB_FILE, "utf-8"));
+        this.data = {
+          users: raw.users || [],
+          userContexts: raw.userContexts || {},
+          gigs: raw.gigs || [],
+          briefs: raw.briefs || [],
+          researchHistory: raw.researchHistory || []
+        };
       } catch {
-        this.data = { gigs: [], briefs: [], researchHistory: [] };
+        this.data = { users: [], userContexts: {}, gigs: [], briefs: [], researchHistory: [] };
       }
     } else {
-      this.data = { gigs: [], briefs: [], researchHistory: [] };
+      this.data = { users: [], userContexts: {}, gigs: [], briefs: [], researchHistory: [] };
       this.save();
     }
   }
@@ -36,6 +76,67 @@ class Store {
     fs.writeFileSync(DB_FILE, JSON.stringify(this.data, null, 2), "utf-8");
   }
 
+  // --- User Auth Store ---
+  public createUser(user: Omit<User, "id" | "createdAt">): User {
+    const id = `usr_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`;
+    const newUser: User = {
+      id,
+      ...user,
+      createdAt: new Date().toISOString()
+    };
+    this.data.users.push(newUser);
+    this.save();
+    return newUser;
+  }
+
+  public findUserByEmail(email: string): User | undefined {
+    return this.data.users.find(u => u.email.toLowerCase() === email.toLowerCase());
+  }
+
+  public findUserByUsername(username: string): User | undefined {
+    return this.data.users.find(u => u.username.toLowerCase() === username.toLowerCase());
+  }
+
+  public findUserById(id: string): User | undefined {
+    return this.data.users.find(u => u.id === id);
+  }
+
+  // --- User Context & Onboarding Store ---
+  public getUserContext(userId: string): UserContext | null {
+    return this.data.userContexts[userId] || null;
+  }
+
+  public saveUserContext(userId: string, context: Partial<UserContext>): UserContext {
+    const existing = this.data.userContexts[userId] || {
+      userId,
+      fullName: "",
+      fiverrUrl: "",
+      experienceYears: "",
+      primarySkills: [],
+      secondarySkills: [],
+      targetNiches: [],
+      marketStrategy: {
+        recommendedNiches: [],
+        marketHiringRateInsight: "",
+        strategicPositioningAdvice: ""
+      },
+      onboardingCompleted: false,
+      updatedAt: new Date().toISOString()
+    };
+
+    const updated: UserContext = {
+      ...existing,
+      ...context,
+      userId,
+      updatedAt: new Date().toISOString()
+    };
+
+    this.data.userContexts[userId] = updated;
+    this.save();
+    return updated;
+  }
+
+  // --- Gigs Store ---
   public saveGig(gig: any) {
     const item = { id: `gig_${Date.now()}`, ...gig, createdAt: new Date().toISOString() };
     this.data.gigs.unshift(item);
@@ -43,10 +144,14 @@ class Store {
     return item;
   }
 
-  public getGigs() {
+  public getGigs(userId?: string) {
+    if (userId) {
+      return this.data.gigs.filter(g => g.userId === userId);
+    }
     return this.data.gigs;
   }
 
+  // --- Briefs Store ---
   public saveBrief(brief: any) {
     const item = { id: `brief_${Date.now()}`, ...brief, createdAt: new Date().toISOString() };
     this.data.briefs.unshift(item);
@@ -54,10 +159,14 @@ class Store {
     return item;
   }
 
-  public getBriefs() {
+  public getBriefs(userId?: string) {
+    if (userId) {
+      return this.data.briefs.filter(b => b.userId === userId);
+    }
     return this.data.briefs;
   }
 
+  // --- Research Store ---
   public saveResearch(research: any) {
     const item = { id: `res_${Date.now()}`, ...research, createdAt: new Date().toISOString() };
     this.data.researchHistory.unshift(item);
@@ -65,7 +174,10 @@ class Store {
     return item;
   }
 
-  public getResearchHistory() {
+  public getResearchHistory(userId?: string) {
+    if (userId) {
+      return this.data.researchHistory.filter(r => r.userId === userId);
+    }
     return this.data.researchHistory;
   }
 }

@@ -1,15 +1,22 @@
-﻿import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import gsap from 'gsap';
+import { AuthProvider } from './context/AuthContext';
 import { Navbar } from './components/layout/Navbar';
 import { HeroScene } from './components/3d/HeroScene';
+import { OnboardingStrategistView } from './components/onboarding/OnboardingStrategistView';
 import { GigGeneratorView } from './components/modules/GigGeneratorView';
 import { BuyerBriefView } from './components/modules/BuyerBriefView';
 import { MarketResearchView } from './components/modules/MarketResearchView';
 import { SavedGigsView } from './components/modules/SavedGigsView';
+import { AuthModal } from './components/auth/AuthModal';
 
-export const App: React.FC = () => {
-  const [activeTab, setActiveTab] = useState('gigs');
+const AppContent: React.FC = () => {
+  // If user has not synthesized a strategy yet, default to 'strategist' tab for guidance
+  const [activeTab, setActiveTab] = useState<string>('strategist');
   const [savedGigs, setSavedGigs] = useState<any[]>([]);
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [prefilledGig, setPrefilledGig] = useState<{ niche: string; skills: string } | null>(null);
+
   const contentRef = useRef<HTMLDivElement>(null);
 
   const fetchSavedGigs = async () => {
@@ -28,16 +35,21 @@ export const App: React.FC = () => {
     fetchSavedGigs();
   }, []);
 
-  // GSAP animation on tab change
+  // Animate tab transitions with GSAP
   useEffect(() => {
     if (contentRef.current) {
       gsap.fromTo(
         contentRef.current,
         { opacity: 0, y: 15 },
-        { opacity: 1, y: 0, duration: 0.4, ease: 'power2.out' }
+        { opacity: 1, y: 0, duration: 0.35, ease: 'power2.out' }
       );
     }
   }, [activeTab]);
+
+  const handleSelectGigFromBlueprint = (gigData: { niche: string; skills: string }) => {
+    setPrefilledGig(gigData);
+    setActiveTab('gigs');
+  };
 
   return (
     <div className="min-h-screen flex flex-col bg-[#07090e] text-gray-100 selection:bg-emerald-500 selection:text-gray-950">
@@ -46,21 +58,44 @@ export const App: React.FC = () => {
         activeTab={activeTab}
         setActiveTab={setActiveTab}
         gigsCount={savedGigs.length}
+        onOpenAuth={() => setIsAuthModalOpen(true)}
       />
 
       {/* Main Container */}
       <main className="flex-1 max-w-6xl w-full mx-auto px-4 md:px-6 py-6 space-y-8">
-        {/* 3D Interactive Hero Canvas */}
+        {/* 3D Interactive Hero Scene */}
         <HeroScene />
 
         {/* Tab Module Views (GSAP Animated) */}
         <div ref={contentRef}>
-          {activeTab === 'gigs' && <GigGeneratorView onGigGenerated={fetchSavedGigs} />}
+          {activeTab === 'strategist' && (
+            <OnboardingStrategistView
+              onSelectGigForGeneration={handleSelectGigFromBlueprint}
+              onOpenAuth={() => setIsAuthModalOpen(true)}
+            />
+          )}
+
+          {activeTab === 'gigs' && (
+            <GigGeneratorView
+              onGigGenerated={fetchSavedGigs}
+              initialNiche={prefilledGig?.niche}
+              initialSkills={prefilledGig?.skills}
+            />
+          )}
+
           {activeTab === 'briefs' && <BuyerBriefView />}
+
           {activeTab === 'research' && <MarketResearchView />}
+
           {activeTab === 'saved' && <SavedGigsView gigs={savedGigs} />}
         </div>
       </main>
+
+      {/* Auth Modal */}
+      <AuthModal
+        isOpen={isAuthModalOpen}
+        onClose={() => setIsAuthModalOpen(false)}
+      />
 
       {/* Footer */}
       <footer className="glass-panel border-t border-white/5 py-6 px-6 mt-12 text-center text-xs text-gray-500">
@@ -69,13 +104,21 @@ export const App: React.FC = () => {
             FiverrGrowth AI Platform &copy; 2026. Built with React 19, Three.js, GSAP, Node.js & Groq/Gemini AI.
           </div>
           <div className="flex items-center gap-4 text-gray-400">
-            <span>Human-in-the-Loop Verified</span>
+            <span>Verified Market Strategy Engine</span>
             <span>&bull;</span>
-            <span>Zero-Ban Compliance Architecture</span>
+            <span>Human-in-the-Loop Architecture</span>
           </div>
         </div>
       </footer>
     </div>
+  );
+};
+
+export const App: React.FC = () => {
+  return (
+    <AuthProvider>
+      <AppContent />
+    </AuthProvider>
   );
 };
 
