@@ -1,4 +1,5 @@
 import { config } from "../config/index.js";
+import { logger } from "../utils/logger.js";
 
 export interface LiveBrief {
   id: string;
@@ -65,9 +66,10 @@ export class LiveResearchService {
       );
 
       const combined = Array.from(new Set(results.flat()));
+      logger.research("GoogleSuggest", `Harvested ${combined.length} live buyer queries for "${keyword}"`);
       return combined.slice(0, 10);
     } catch (err) {
-      console.warn("Error fetching live buyer queries:", err);
+      logger.warn("LiveResearch", `Error fetching live buyer queries for "${keyword}"`);
       return [
         `${keyword} custom development`,
         `hire ${keyword} specialist`,
@@ -114,9 +116,10 @@ export class LiveResearchService {
             skills: this.extractSkills(job.jobTitle + " " + cleanDesc),
           });
         }
+        logger.research("JobicyAPI", `Extracted ${jobs.length} active jobs for tag "${jobicyTag}"`);
       }
     } catch (err) {
-      console.warn("Could not fetch Jobicy briefs:", err);
+      logger.warn("LiveResearch", `Jobicy API fetch issue: ${err}`);
     }
 
     // 2. Fetch from Remotive API
@@ -145,11 +148,13 @@ export class LiveResearchService {
             skills: this.extractSkills(job.title + " " + cleanDesc),
           });
         }
+        logger.research("RemotiveAPI", `Extracted ${jobs.length} active client opportunities`);
       }
     } catch (err) {
-      console.warn("Could not fetch Remotive briefs:", err);
+      logger.warn("LiveResearch", `Remotive API fetch issue: ${err}`);
     }
 
+    logger.research("BriefsAggregate", `Returning ${briefs.length} unified real-time client opportunities`);
     return briefs.slice(0, limit);
   }
 
@@ -172,16 +177,18 @@ export class LiveResearchService {
       const res = await fetch(url, { headers, signal: AbortSignal.timeout(5000) });
       if (res.ok) {
         const data = await res.json() as any;
-        return (data.items || []).map((item: any) => ({
+        const tools = (data.items || []).map((item: any) => ({
           name: item.full_name,
           stars: item.stargazers_count,
           description: item.description || "Open source project & framework",
           url: item.html_url,
           topics: item.topics || [],
         }));
+        logger.research("GitHubAPI", `Retrieved ${tools.length} open-source repositories matching "${keyword}"`);
+        return tools;
       }
     } catch (err) {
-      console.warn("GitHub API fetch error:", err);
+      logger.warn("LiveResearch", `GitHub API search warning: ${err}`);
     }
     return [];
   }
@@ -190,6 +197,7 @@ export class LiveResearchService {
    * Aggregate complete real live market intelligence report
    */
   async getLiveMarketIntelligence(niche: string = "web development"): Promise<LiveMarketIntelligence> {
+    logger.info("MarketIntelligence", `Compiling multi-source real data report for "${niche}"...`);
     const [buyerQueries, liveBriefs, githubTools] = await Promise.all([
       this.getLiveBuyerQueries(niche),
       this.getLiveClientBriefs(niche, 10),
@@ -200,6 +208,8 @@ export class LiveResearchService {
     const baseDemand = Math.min(98, 75 + liveBriefs.length * 2);
     const keywordIntentBonus = Math.min(10, buyerQueries.length);
     const opportunityScore = Math.min(99, baseDemand + keywordIntentBonus);
+
+    logger.info("MarketIntelligence", `Finished market report for "${niche}": Score ${opportunityScore}/100, ${liveBriefs.length} briefs, ${buyerQueries.length} buyer terms`);
 
     return {
       niche,

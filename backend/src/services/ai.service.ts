@@ -1,5 +1,6 @@
-﻿import axios from "axios";
+import axios from "axios";
 import { config } from "../config/index.js";
+import { logger } from "../utils/logger.js";
 
 export class AIService {
   private pythonServiceUrl = config.AI_SERVICE_URL;
@@ -9,14 +10,17 @@ export class AIService {
     primary_skill: string;
     experience_level?: string;
     target_turnaround?: string;
+    search_tags?: string[];
   }) {
+    logger.ai("GigSynthesizer", `Initiating gig generation for niche "${payload.service_niche}"`);
     try {
       const response = await axios.post(`${this.pythonServiceUrl}/api/ai/gigs/generate`, payload, {
         timeout: 25000
       });
+      logger.ai("GigSynthesizer", `Received response from Python AI engine for "${payload.service_niche}"`);
       return response.data;
     } catch (error: any) {
-      console.warn("Python AI service unavailable or timed out, executing direct fallback...");
+      logger.warn("GigSynthesizer", "Python AI service unavailable or timed out, executing direct self-healing fallback...");
       return this.directFallbackGig(payload);
     }
   }
@@ -27,13 +31,15 @@ export class AIService {
     urgency?: string;
     user_skills?: string[];
   }) {
+    logger.ai("BriefMatcher", `Generating tailored proposal for brief: "${payload.brief_text.substring(0, 45)}..."`);
     try {
       const response = await axios.post(`${this.pythonServiceUrl}/api/ai/briefs/propose`, payload, {
         timeout: 25000
       });
+      logger.ai("BriefMatcher", "Received proposal from Python AI engine");
       return response.data;
     } catch (error: any) {
-      console.warn("Python AI service unavailable, executing direct fallback...");
+      logger.warn("BriefMatcher", "Python AI service unavailable, executing direct fallback...");
       return this.directFallbackBrief(payload);
     }
   }
@@ -42,96 +48,114 @@ export class AIService {
     skill_keywords: string[];
     target_category?: string;
   }) {
+    logger.ai("MarketSpy", `Analyzing market dynamics for: ${payload.skill_keywords.join(", ")}`);
     try {
       const response = await axios.post(`${this.pythonServiceUrl}/api/ai/research/niche`, payload, {
         timeout: 25000
       });
+      logger.ai("MarketSpy", "Received niche analysis from Python AI engine");
       return response.data;
     } catch (error: any) {
-      console.warn("Python AI service unavailable, executing direct fallback...");
+      logger.warn("MarketSpy", "Python AI service unavailable, executing direct fallback...");
       return this.directFallbackResearch(payload);
     }
   }
 
   private directFallbackGig(payload: any) {
     const niche = payload.service_niche || "Python Automation";
+    const skill = payload.primary_skill || "Python, Automation";
+    const tags = payload.search_tags && payload.search_tags.length > 0
+      ? payload.search_tags
+      : [niche.toLowerCase().slice(0, 20), "python", "automation", "api", "developer"];
+
     return {
       title: `I will develop high performance ${niche.toLowerCase()} scripts and bots`,
       category: "Programming & Tech",
-      sub_category: "Data Scraping & Extraction",
-      search_tags: ["python bot", "automation", "data scraping", "web scraper", "scripting"],
-      description: `## Professional ${niche} Services\n\nLooking for reliable, scalable automation? I specialize in building custom scripts that handle complex tasks effortlessly.\n\n### What I Deliver:\n- Error-handled custom code\n- High-speed performance\n- Clean documentation & deployment\n\n**Contact me now to discuss your custom project requirements!**`,
+      sub_category: "Software Development & Scripts",
+      search_tags: tags.slice(0, 5),
+      description: `## Professional ${niche} Solutions\n\nAre you looking for an expert in **${skill}** to deliver robust, scalable, and high-performance solutions? You are in the right place.\n\n### What I Offer:\n- Custom tailored architecture & clean code\n- Error handling, comprehensive logging & rate limit handling\n- Fast delivery with post-delivery technical support\n\n### Why Choose Me:\n- Proven track record with zero-bug delivery\n- Clear communication and rapid response times\n\n*Contact me before ordering to discuss your custom project requirements!*`,
       packages: {
         basic: {
           name: "Basic Setup",
-          title: "Single Automation Script",
-          description: "One clean task automation script with output formatting.",
+          title: "Simple Task & Core Script",
+          description: `Single modular script for ${niche.toLowerCase()} with standard output.`,
           delivery_days: 1,
-          price_usd: 30.0,
+          price_usd: 35.0,
           revisions: 1
         },
         standard: {
           name: "Standard Package",
-          title: "Multi-Step Automation & API",
-          description: "Dynamic script with database/Google Sheets integration.",
+          title: "Full Feature Implementation",
+          description: `Complete ${niche.toLowerCase()} workflow with database integration and API connection.`,
           delivery_days: 2,
-          price_usd: 85.0,
+          price_usd: 95.0,
           revisions: 3
         },
         premium: {
-          name: "Enterprise Solution",
-          title: "Complete Automated System",
-          description: "Full end-to-end automation with proxy handling, cloud deploy, and dashboard.",
+          name: "Enterprise Architecture",
+          title: "Full Production Solution",
+          description: `High-throughput, containerized, cloud-ready deployment with continuous monitoring.`,
           delivery_days: 4,
-          price_usd: 200.0,
+          price_usd: 220.0,
           revisions: 999
         }
       },
       faqs: [
         {
-          question: "How do we get started?",
-          answer: "Simply share your target specifications or website link and I will prepare a sample demo."
+          question: `Can you customize the ${niche} logic for my specific environment?`,
+          answer: "Yes, every delivery is tailored to your exact tech stack, API requirements, and operating system."
+        },
+        {
+          question: "Do you provide source code and deployment assistance?",
+          answer: "Full commented source code and deployment documentation is provided with every package."
         }
       ],
-      buyer_requirements: ["Target requirements document or URL", "Desired output format"],
+      buyer_requirements: [
+        "Detailed specification of the desired input and output format",
+        "API keys or system access if external third-party integration is required"
+      ],
       seo_score: 95.0
     };
   }
 
   private directFallbackBrief(payload: any) {
+    const skills = payload.user_skills?.length ? payload.user_skills.join(", ") : "Full-Stack Development, APIs";
     return {
-      proposal_text: `I reviewed your requirements: "${payload.brief_text.slice(0, 80)}...".\n\nHere is my 3-step action plan:\n1. Analyze and isolate target data endpoints / workflow logic.\n2. Develop a resilient script with built-in error handling and rate-limit safety.\n3. Format output cleanly to your exact specification.\n\nI can deliver an initial verified sample within 24 hours. Let me know if you'd like to review a quick demo!`,
-      suggested_bid_usd: payload.buyer_budget ? parseFloat(payload.buyer_budget.replace(/[^0-9.]/g, "")) || 100 : 95.0,
-      recommended_delivery_days: 2,
-      key_selling_hook: "Fast 24-hour sample preview with error-handled code",
-      confidence_score: 0.92
+      proposal_text: `Hi there,\n\nI reviewed your brief carefully: "${payload.brief_text.substring(0, 80)}...".\n\nWith hands-on experience in ${skills}, I can jump in and solve this cleanly for you.\n\nHere is my immediate execution approach:\n1. Audit the requirements and configure the core logic with zero bottlenecks.\n2. Implement robust error handling, automated tests, and clean architecture.\n3. Deploy and verify everything end-to-end.\n\nI can deliver this within ${payload.urgency || "48 hours"} with full technical support.\n\nBest regards,\nVerified Senior Freelancer`,
+      suggested_bid_usd: payload.buyer_budget ? parseFloat(payload.buyer_budget.replace(/[^0-9.]/g, "")) || 150 : 150,
+      recommended_delivery_days: payload.urgency?.toLowerCase().includes("day") ? 2 : 3,
+      confidence_score: 0.94,
+      key_selling_hook: "Technical specificity and zero-downtime execution methodology."
     };
   }
 
   private directFallbackResearch(payload: any) {
-    const kw = payload.skill_keywords?.[0] || "Python automation";
+    const primary = payload.skill_keywords?.[0] || "Software Engineering";
     return {
-      target_keywords: [
-        {
-          keyword: kw,
-          competition_level: "LOW",
-          avg_queue_count: 5,
-          opportunity_score: 91.5,
-          recommendation: "Use this keyword prominently in the first 4 words of your gig title."
-        }
-      ],
+      overall_niche_score: 89,
+      competition_density: "Moderate-Low in specialized high-ticket sub-categories",
       pricing_benchmarks: {
-        avg_basic_price: 25.0,
-        avg_standard_price: 80.0,
-        avg_premium_price: 195.0,
-        recommended_entry_price: 30.0
+        entry_price: 35,
+        median_price: 120,
+        top_earner_price: 350,
+        recommended_entry_price: 50
       },
-      high_demand_gaps: [
-        "Fast 24-hour delivery on basic automation",
-        "Clear documentation and video walkthroughs"
+      high_volume_tags: [
+        `${primary.toLowerCase()}`,
+        "custom automation",
+        "api integration",
+        "expert developer",
+        "fast turnaround"
       ],
-      strategic_advice: "Highlight reliability and anti-ban safeguards to beat lower-rated competitors.",
-      overall_niche_score: 88.0
+      unserved_market_gaps: [
+        `Enterprise-grade error handling in ${primary}`,
+        "24-hour turnaround with clean documentation",
+        "Pre-built automated testing and containerization"
+      ],
+      recommended_gig_angles: [
+        `Position as a senior engineer rather than a commodity freelancer`,
+        `Lead with business ROI (time saved, revenue unlocked) rather than lines of code`
+      ]
     };
   }
 }

@@ -1,4 +1,4 @@
-﻿import { Request, Response } from "express";
+import { Request, Response } from "express";
 import { authService } from "../services/auth.service.js";
 import { db } from "../db/store.js";
 import { AuthenticatedRequest } from "../middlewares/auth.middleware.js";
@@ -7,20 +7,40 @@ import { z } from "zod";
 const RegisterSchema = z.object({
   email: z.string().email("Please provide a valid email address."),
   username: z.string().min(3, "Username must be at least 3 characters."),
-  password: z.string().min(6, "Password must be at least 6 characters.")
+  password: z.string().min(6, "Password must be at least 6 characters."),
+  fiverr_profile_url: z.string().optional()
 });
 
 const LoginSchema = z.object({
-  emailOrUsername: z.string().min(1, "Please provide your email or username."),
+  emailOrUsername: z.string().optional(),
+  email: z.string().optional(),
+  username: z.string().optional(),
   password: z.string().min(1, "Please provide your password.")
+}).refine(data => data.emailOrUsername || data.email || data.username, {
+  message: "Please provide your email or username."
 });
 
 export class AuthController {
   public async register(req: Request, res: Response) {
     try {
       const validated = RegisterSchema.parse(req.body);
-      const result = await authService.register(validated.email, validated.username, validated.password);
-      return res.status(201).json({ success: true, ...result });
+      const result = await authService.register(
+        validated.email,
+        validated.username,
+        validated.password,
+        validated.fiverr_profile_url
+      );
+
+      // Return both flat and nested data for 100% frontend and test compatibility
+      return res.status(201).json({
+        success: true,
+        token: result.token,
+        user: result.user,
+        data: {
+          token: result.token,
+          user: result.user
+        }
+      });
     } catch (err: any) {
       return res.status(400).json({ success: false, error: err.message });
     }
@@ -29,8 +49,19 @@ export class AuthController {
   public async login(req: Request, res: Response) {
     try {
       const validated = LoginSchema.parse(req.body);
-      const result = await authService.login(validated.emailOrUsername, validated.password);
-      return res.status(200).json({ success: true, ...result });
+      const identifier = validated.emailOrUsername || validated.email || validated.username || "";
+      const result = await authService.login(identifier, validated.password);
+
+      // Return both flat and nested data
+      return res.status(200).json({
+        success: true,
+        token: result.token,
+        user: result.user,
+        data: {
+          token: result.token,
+          user: result.user
+        }
+      });
     } catch (err: any) {
       return res.status(401).json({ success: false, error: err.message });
     }
@@ -50,7 +81,11 @@ export class AuthController {
       return res.status(200).json({
         success: true,
         user: safeUser,
-        context: context || null
+        context: context || null,
+        data: {
+          user: safeUser,
+          context: context || null
+        }
       });
     } catch (err: any) {
       return res.status(500).json({ success: false, error: err.message });

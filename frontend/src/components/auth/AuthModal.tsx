@@ -44,10 +44,17 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, defaultMo
         throw new Error(json.error || 'Authentication failed');
       }
 
+      const receivedToken = json.data?.token || json.token;
+      const receivedUser = json.data?.user || json.user;
+
+      if (!receivedToken || !receivedUser) {
+        throw new Error('Authentication succeeded but token or user data was missing.');
+      }
+
       if (mode === 'register') {
-        await register(json.data.token, json.data.user);
+        await register(receivedToken, receivedUser);
       } else {
-        await login(json.data.token, json.data.user);
+        await login(receivedToken, receivedUser);
       }
 
       onClose();

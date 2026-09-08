@@ -1,4 +1,4 @@
-﻿import fs from "fs";
+import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 
@@ -12,6 +12,7 @@ export interface User {
   email: string;
   username: string;
   passwordHash: string;
+  fiverr_profile_url?: string;
   createdAt: string;
 }
 
