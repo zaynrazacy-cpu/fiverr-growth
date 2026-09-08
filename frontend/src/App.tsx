@@ -2,7 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { AuthProvider } from './context/AuthContext';
 import { Navbar } from './components/layout/Navbar';
-import { HeroScene } from './components/3d/HeroScene';
+import { AmbientBackdrop } from './components/3d/HeroScene';
+import { SellerCockpit } from './components/dashboard/SellerCockpit';
 import { OnboardingStrategistView } from './components/onboarding/OnboardingStrategistView';
 import { GigGeneratorView } from './components/modules/GigGeneratorView';
 import { BuyerBriefView } from './components/modules/BuyerBriefView';
@@ -11,7 +12,7 @@ import { SavedGigsView } from './components/modules/SavedGigsView';
 import { AuthModal } from './components/auth/AuthModal';
 
 const AppContent: React.FC = () => {
-  // If user has not synthesized a strategy yet, default to 'strategist' tab for guidance
+  // Default to 'strategist' for guidance
   const [activeTab, setActiveTab] = useState<string>('strategist');
   const [savedGigs, setSavedGigs] = useState<any[]>([]);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
@@ -40,8 +41,8 @@ const AppContent: React.FC = () => {
     if (contentRef.current) {
       gsap.fromTo(
         contentRef.current,
-        { opacity: 0, y: 15 },
-        { opacity: 1, y: 0, duration: 0.35, ease: 'power2.out' }
+        { opacity: 0, y: 12 },
+        { opacity: 1, y: 0, duration: 0.3, ease: 'power2.out' }
       );
     }
   }, [activeTab]);
@@ -52,7 +53,10 @@ const AppContent: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#07090e] text-gray-100 selection:bg-emerald-500 selection:text-gray-950">
+    <div className="min-h-screen flex flex-col bg-[#07090e] text-gray-100 selection:bg-emerald-500 selection:text-gray-950 relative overflow-x-hidden">
+      {/* Ambient 3D Three.js Glow Backdrop */}
+      <AmbientBackdrop />
+
       {/* Navbar */}
       <Navbar
         activeTab={activeTab}
@@ -61,13 +65,17 @@ const AppContent: React.FC = () => {
         onOpenAuth={() => setIsAuthModalOpen(true)}
       />
 
-      {/* Main Container */}
-      <main className="flex-1 max-w-6xl w-full mx-auto px-4 md:px-6 py-6 space-y-8">
-        {/* 3D Interactive Hero Scene */}
-        <HeroScene />
+      {/* Main Command Center Container */}
+      <main className="flex-1 max-w-7xl w-full mx-auto px-4 md:px-6 py-5 space-y-5 relative z-10">
+        {/* Executive Freelancer KPI Cockpit & Guided Pipeline */}
+        <SellerCockpit
+          activeTab={activeTab}
+          onNavigateTab={setActiveTab}
+          savedGigsCount={savedGigs.length}
+        />
 
         {/* Tab Module Views (GSAP Animated) */}
-        <div ref={contentRef}>
+        <div ref={contentRef} className="w-full">
           {activeTab === 'strategist' && (
             <OnboardingStrategistView
               onSelectGigForGeneration={handleSelectGigFromBlueprint}
